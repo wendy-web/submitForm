@@ -64,7 +64,7 @@ export default {
   methods: {
     closeHandle() {
       window.close();
-      console.log('closeHandle', )
+      console.log('关闭申请', );
       closeWebview();
     },
     submitHandle() {
