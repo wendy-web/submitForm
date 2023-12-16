@@ -27,30 +27,71 @@
     <div class="item_list">现金券在中信银行核验后发放到账，可在“彬纷想你APP-我的-现金券"中看；</div>
     <div class="item_list">办理结果以中信银行审核标准为准。</div>
   </div>
+  <continuePhoneRegDia
+    :isShow="isShowPhoneDia"
+    :telNum="telNum"
+    @close="isShowPhoneDia = false"
+    @confirm="confirmHandle"
+  ></continuePhoneRegDia>
 </div>
 </template>
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import continuePhoneRegDia from './components/continuePhoneRegDia.vue'
+import { Toast } from 'vant';
+import { checkName, checkUserPhone} from './assets/js/util.js'
 
 export default {
   name: 'App',
   components: {
+    continuePhoneRegDia
   },
   data(){
     return {
       nickName: '',
       telNum: '',
-      addressText: ''
+      addressText: '',
+      isShowPhoneDia: false,
+      submitParams: null
     }
   },
   methods: {
     submitHandle() {
-      console.log('this', this.nickName);
+      const params = this.validateInfo();
+      if(!params) return;
+      this.isShowPhoneDia = true;
+      console.log('params', params);
+      this.submitParams= params
+    },
+    confirmHandle() {
+      this.isShowPhoneDia = false;
+      console.log('this.submitParams', this.submitParams)
+    },
+    validateInfo() {
       if(!this.nickName) {
-        console.log('请输入姓名', )
+        Toast('请输入姓名');
         return false;
       }
-
+      if (!checkName(this.nickName)) {
+        Toast('姓名格式不正确');
+        return false;
+      }
+      if(!this.telNum) {
+        Toast('请输入手机号码');
+        return false;
+      }
+      if(!checkUserPhone(this.telNum)) {
+        Toast('手机号码格式有误！');
+        return false;
+      }
+      if(!this.addressText) {
+        Toast('请输入家庭或工作地址');
+        return false;
+      }
+      return {
+        nickName: this.nickName,
+        telNum: this.telNum,
+        addressText: this.addressText
+      }
     }
   }
 }
