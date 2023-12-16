@@ -11,6 +11,7 @@
     "axios": "^1.6.2",
     "core-js": "^3.6.5",
     "dsbridge": "^3.1.4",
+    "postcss-px2rem": "^0.3.0",
     "vant": "latest-v2",
     "vue": "^2.6.11",
     "vue-axios": "^3.5.2",

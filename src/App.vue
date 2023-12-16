@@ -127,6 +127,9 @@ background: #FBEBDB;
   width: 100vw;
   height: 100vh;
   background: #FBEBDB;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding-bottom: 20px;
   &::before {
     content: '\3000';
     background: url("./assets/images/sub_top.png") 0 0 / cover;
@@ -135,7 +138,7 @@ background: #FBEBDB;
     display: block;
   }
   .left_btn{
-    position: absolute;
+    position: fixed;
     width: 18px;
     left: 16px;
     top: 57px;
