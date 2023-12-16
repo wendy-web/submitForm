@@ -1,6 +1,6 @@
 <template>
 <div id="app" class="cont_box">
-  <img src="./assets/images/left.png" class="left_btn" />
+  <img src="./assets/images/left.png" class="left_btn" @click="closeHandle" />
   <div class="cont_sub">
     <div class="cont_sub-title">请填写申请信息</div>
     <div class="cont_item">
@@ -26,9 +26,9 @@
     <div class="cont_rem">提交申请后将有专员联系您，请保持电话畅通</div>
   </div>
   <div class="item_list-box">
-    <div class="item_list">成功办理—类银行账户后，添加并绑定至彬纷想APP资金提现账户，返100元现金券；</div>
-    <div class="item_list">现金券在中信银行核验后发放到账，可在“彬纷想你APP-我的-现金券"中看；</div>
-    <div class="item_list">办理结果以中信银行审核标准为准。</div>
+    <div class="item_list">成功办理一类银行账户后，添加并绑定至彬纷想你APP资金提现账户，返100元现金券</div>
+    <div class="item_list">现金券在中信银行核验后发放到账，可在“彬纷想你APP - 我的 - 现金券”中查看；</div>
+    <div class="item_list"> 填写申请后，会有中信银行专员联系办理借记卡，具体办卡事宜由专员告知；如有疑问，注意与专员详细沟通了解。办理结果以中信银行审核标准为准。</div>
   </div>
   <continuePhoneRegDia
     :isShow="isShowPhoneDia"
@@ -42,7 +42,8 @@
 import continuePhoneRegDia from './components/continuePhoneRegDia.vue'
 import { Toast } from 'vant';
 import { checkName, checkUserPhone} from './assets/js/util.js'
-import request from './assets/js/axios'
+import request from './assets/js/axios';
+import {closeWebview} from './assets/js/dsBridge'
 export default {
   name: 'App',
   components: {
@@ -59,9 +60,13 @@ export default {
     }
   },
   mounted() {
-    // history.go(-1);
   },
   methods: {
+    closeHandle() {
+      window.close();
+      console.log('closeHandle', )
+      closeWebview();
+    },
     submitHandle() {
       const params = this.validateInfo();
       if(!params) return;
@@ -75,7 +80,6 @@ export default {
         tag: 'bfxlApp'
       }).then(res => {
         Toast(res.msg);
-        console.log('res.code', res.code);
         this.nickName = '';
         this.telNum = '';
         this.addressText = '';
@@ -151,10 +155,12 @@ background: #FBEBDB;
     margin: 20px auto 0;
     position: relative;
     z-index: 0;
+    font-weight: 600;
     &::before {
       content: '\3000';
       position: absolute;
-      bottom: 0;
+      z-index: -1;
+      bottom: 2px;
       left: 50%;
       transform: translateX(-50%);
       width: 132px;
@@ -171,6 +177,7 @@ background: #FBEBDB;
       font-size: 15px;
       min-width: 60px;
       margin-right: 10px;
+      font-weight: 600;
     }
     .cont_input {
       flex: 1;
