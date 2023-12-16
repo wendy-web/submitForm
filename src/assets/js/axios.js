@@ -1,6 +1,7 @@
 import axios from 'axios';
+// console.log('pro', process.env.NODE_ENV)
 const instance = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API,
+    baseURL: process.env.NODE_ENV == 'development' ? '/dev' : '',
     timeout: 5000
 })
 

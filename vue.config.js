@@ -12,11 +12,11 @@ module.exports = {
     assetsDir: 'assets',
     devServer: {
         proxy: {
-            '/api': {
-                target: process.env.VUE_APP_BASE_API,
+            '/dev': {
+                target: 'https://ttxl-test.y1b.cn',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': '/api'
+                    '/dev': ''
                 }
             }
         }
