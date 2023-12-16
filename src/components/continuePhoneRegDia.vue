@@ -4,8 +4,8 @@
   :round="true"
 >
 <div class="dia_cont">
-  <div class="confirm_text">确定充值账号是否正确</div>
-  <div class="confirm_num">{{ formatterFun(telNum) }}</div>
+  <div class="confirm_text">确定手机号是否正确</div>
+  <div class="confirm_num" v-html="showValue"></div>
   <div class="btns_box">
     <div class="pop_btn" @click="onClose">取消</div>
     <div class="pop_btn pop_btn-confirm" @click="onConfirm">确认</div>
@@ -30,6 +30,11 @@
 			return {
 			}
 		},
+    computed: {
+      showValue() {
+       return this.formatterFun(this.telNum)
+      }
+    },
 		methods: {
 			onConfirm() {
         this.$emit("confirm");
@@ -39,8 +44,8 @@
 			},
       formatterFun(value) {
         let showValue = String(value);
-        showValue = showValue.slice(0,3) + " "+ showValue.slice(3,7) + " " + showValue.slice(7);
-        return showValue
+        showValue = showValue.slice(0,3) + "&ensp;" + showValue.slice(3,7) + "&ensp;" + showValue.slice(7);
+        return showValue;
       }
 		}
 
@@ -74,6 +79,7 @@
     font-weight: 500;
     border: none;
     background: #f7f7f7;
+    font-size: 14px;
     &.pop_btn-confirm {
       color: #fff;
       background: linear-gradient(135deg,#f2554d, #f04037);
