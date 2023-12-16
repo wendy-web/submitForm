@@ -7,7 +7,7 @@ const postcss = px2rem({
     remUnit: 3
 })
 module.exports = {
-    publicPath: '/',
+    publicPath: './',
     outputDir: 'dist',
     assetsDir: 'assets',
     devServer: {
@@ -28,9 +28,7 @@ module.exports = {
                 javascriptEnabled: true,
             },
             postcss: {
-                plugins: [
-                    postcss,
-                ],
+                plugins: [postcss],
             },
         },
     }
