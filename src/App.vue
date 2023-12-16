@@ -19,7 +19,10 @@
       <input type="text" name="address" class="cont_input"
       placeholder="请输入家庭或工作地址" v-model="addressText" />
     </div>
-    <input type="submit" class="sub_btn" value="提交申请" @click="submitHandle">
+    <input type="submit"
+      :class="['sub_btn', isAlreadySubmit ? 'active' : '']"
+      :value="isAlreadySubmit ? '已提交申请' : '提交申请'"
+      @click="submitHandle">
     <div class="cont_rem">提交申请后将有专员联系您，请保持电话畅通</div>
   </div>
   <div class="item_list-box">
@@ -39,7 +42,7 @@
 import continuePhoneRegDia from './components/continuePhoneRegDia.vue'
 import { Toast } from 'vant';
 import { checkName, checkUserPhone} from './assets/js/util.js'
-
+import request from './assets/js/axios'
 export default {
   name: 'App',
   components: {
@@ -51,46 +54,60 @@ export default {
       telNum: '',
       addressText: '',
       isShowPhoneDia: false,
-      submitParams: null
+      submitParams: null,
+      isAlreadySubmit: false
     }
+  },
+  mounted() {
+    // history.go(-1);
   },
   methods: {
     submitHandle() {
       const params = this.validateInfo();
       if(!params) return;
       this.isShowPhoneDia = true;
-      console.log('params', params);
-      this.submitParams= params
+      this.submitParams= params;
     },
     confirmHandle() {
       this.isShowPhoneDia = false;
-      console.log('this.submitParams', this.submitParams)
+      request.get('/api/Get/debitCard', {
+        ...this.submitParams,
+        tag: 'bfxlApp'
+      }).then(res => {
+        Toast(res.msg);
+        console.log('res.code', res.code);
+        this.nickName = '';
+        this.telNum = '';
+        this.addressText = '';
+        if(res.code == 1) this.isAlreadySubmit = true;
+      });
     },
     validateInfo() {
-      if(!this.nickName) {
+      if(this.isAlreadySubmit) return false;
+      if(!this.nickName.trim()) {
         Toast('请输入姓名');
         return false;
       }
-      if (!checkName(this.nickName)) {
+      if (!checkName(this.nickName.trim())) {
         Toast('姓名格式不正确');
         return false;
       }
-      if(!this.telNum) {
+      if(!this.telNum.trim()) {
         Toast('请输入手机号码');
         return false;
       }
-      if(!checkUserPhone(this.telNum)) {
+      if(!checkUserPhone(this.telNum.trim())) {
         Toast('手机号码格式有误！');
         return false;
       }
-      if(!this.addressText) {
+      if(!this.addressText.trim()) {
         Toast('请输入家庭或工作地址');
         return false;
       }
       return {
-        nickName: this.nickName,
-        telNum: this.telNum,
-        addressText: this.addressText
+        nick_name: this.nickName,
+        mobile: this.telNum,
+        address: this.addressText
       }
     }
   }
@@ -163,7 +180,7 @@ background: #FBEBDB;
       line-height: 30px;
     }
   }
-  .sub_btn{
+  .sub_btn {
     width: 200px;
     height: 42px;
     background: #ff4337;
@@ -174,6 +191,9 @@ background: #FBEBDB;
     line-height: 42px;
     margin: 38px auto 0;
     display: block;
+    &.active {
+      background: #fc958e;
+    }
   }
   .cont_rem{
     font-size: 13px;

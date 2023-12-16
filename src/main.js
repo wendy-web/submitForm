@@ -15,7 +15,12 @@ import './assets/css/reset.scss';
 // Toast('提示内容');
 import { Popup } from 'vant';
 Vue.use(Popup);
-Vue.config.productionTip = false
+
+import axios from 'axios'
+// import VueAxios from 'vue-axios'
+// Vue.use(VueAxios, axios); //注意需要先注册VueAxios
+// Vue.config.productionTip = false;
+Vue.prototype.$axios = axios;
 
 new Vue({
     store,

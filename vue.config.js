@@ -2,10 +2,10 @@ module.exports = {
     devServer: {
         proxy: {
             '/api': {
-                target: 'https://ttxl-test.y1b.cn',
+                target: process.env.VUE_APP_BASE_API,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': ''
+                    '^/api': '/api'
                 }
             }
         }
