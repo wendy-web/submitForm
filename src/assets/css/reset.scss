@@ -152,7 +152,6 @@ html,
 body {
     width: 100vw;
     height: 100vh;
-    background: #f5f5f5;
 }
 
 body {
@@ -210,7 +209,9 @@ li {
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #f5f5f5 inset;
+    -webkit-box-shadow: 0 0 0px 1000px #fefbf8 inset;
+    // 自动填充 class 类名；
+    // -webkit-box-shadow：使用盒子阴影遮挡input背景色；
 }
 
 * {

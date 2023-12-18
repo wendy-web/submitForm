@@ -1,6 +1,13 @@
 <template>
 <div id="app" class="cont_box">
-  <img src="./assets/images/left.png" class="left_btn" @click="closeHandle" />
+  <!-- <img src="./assets/images/left.png" class="left_btn" @click="closeHandle" /> -->
+  <van-nav-bar
+    left-arrow
+    :safe-area-inset-top="true"
+    :border="false"
+    :fixed="true"
+    @click-left="closeHandle"
+  />
   <div class="cont_sub">
     <div class="cont_sub-title">请填写申请信息</div>
     <div class="cont_item">
@@ -51,7 +58,7 @@ import continuePhoneRegDia from './components/continuePhoneRegDia.vue'
 import { Toast } from 'vant';
 import { checkName, checkUserPhone} from './assets/js/util.js'
 import request from './assets/js/axios';
-import {closeWebview} from './assets/js/dsBridge'
+import { closeWebview } from './assets/js/dsBridge'
 export default {
   name: 'App',
   components: {
@@ -71,9 +78,10 @@ export default {
   },
   methods: {
     closeHandle() {
+      Toast('关闭申请');
       window.close();
-      console.log('关闭申请', );
       closeWebview();
+      console.log('关闭申请', );
     },
     submitHandle() {
       const params = this.validateInfo();
@@ -124,19 +132,31 @@ export default {
 </script>
 
 <style lang="scss">
+.van-nav-bar .van-icon {
+  color: #333 !important;
+  font-size: 22px !important;
+}
+.van-nav-bar {
+  background: transparent !important;
+  border: 0;
+}
 #app {
 background: #FBEBDB;
+width: 100vw;
+height: 100vh;
 }
 .cont_box {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: #FBEBDB;
+  z-index: 0;
   overflow-y: scroll;
   box-sizing: border-box;
   padding-bottom: 20px;
   &::before {
     content: '\3000';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
     background: url("./assets/images/sub_top.png") 0 0 / cover;
     width: 100%;
     height: 290px;
@@ -144,15 +164,17 @@ background: #FBEBDB;
   }
   .left_btn{
     position: fixed;
+    padding: 10px;
     width: 18px;
-    left: 16px;
-    top: 57px;
+    left: 6px;
+    top: 47px;
+    box-sizing: content-box;
   }
 }
 .cont_sub {
   background: #fefbf8;
   border-radius: 12px;
-  margin: -50px 12px 0;
+  margin: 260px 12px 0;
   padding: 0 16px;
   box-sizing: border-box;
   overflow: hidden;
