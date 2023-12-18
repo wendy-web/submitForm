@@ -56,9 +56,8 @@
 <script>
 import continuePhoneRegDia from './components/continuePhoneRegDia.vue'
 import { Toast } from 'vant';
-import { checkName, checkUserPhone} from './assets/js/util.js'
+import { checkName, checkUserPhone, getSearchName} from './assets/js/util.js'
 import request from './assets/js/axios';
-import { closeWebview } from './assets/js/dsBridge'
 export default {
   name: 'App',
   components: {
@@ -71,17 +70,25 @@ export default {
       addressText: '',
       isShowPhoneDia: false,
       submitParams: null,
-      isAlreadySubmit: false
+      isAlreadySubmit: false,
+      xn_uid: ''
     }
   },
   mounted() {
+    const xn_uid = getSearchName('xn_uid');
+    this.xn_uid = xn_uid;
   },
   methods: {
     closeHandle() {
-      Toast('关闭申请');
+      if (typeof window !== 'undefined' && typeof window.webkit === 'object') {
+        window.webkit.messageHandlers.htmlBack.postMessage('');
+      }
+      if (window.launcher) { // 判断 launcher 对象是否存在
+				// 此处的 launcher 要和 第3步中定义的 launcher 保持一致
+				// JS 调用 Android 的方法
+				window.launcher.htmlBack();
+			}
       window.close();
-      closeWebview();
-      console.log('关闭申请', );
     },
     submitHandle() {
       const params = this.validateInfo();
@@ -93,7 +100,8 @@ export default {
       this.isShowPhoneDia = false;
       request.get('/api/Get/debitCard', {
         ...this.submitParams,
-        tag: 'bfxlApp'
+        tag: 'bfxlApp',
+        xn_uid: this.xn_uid
       }).then(res => {
         Toast(res.msg);
         if(res.code == 1) this.isAlreadySubmit = true;
@@ -131,19 +139,18 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.van-nav-bar .van-icon {
-  color: #333 !important;
-  font-size: 22px !important;
+<style lang="scss" scoped>
+::v-deep.van-nav-bar .van-icon {
+  color: #333;
+  font-size: 22px;
 }
-.van-nav-bar {
-  background: transparent !important;
+::v-deep.van-nav-bar {
+  background: transparent;
   border: 0;
 }
 #app {
 background: #FBEBDB;
 width: 100vw;
-height: 100vh;
 }
 .cont_box {
   position: relative;

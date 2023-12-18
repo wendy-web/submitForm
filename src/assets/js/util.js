@@ -19,3 +19,12 @@ export function checkUserPhone(phone) {
     }
     return true;
 }
+
+export function getSearchName(name) {
+    if (!name) return null;
+    // 获取 URL 参数
+    const queryString = window.location.search;
+    // 创建 URLSearchParams 对象
+    const searchParams = new URLSearchParams(queryString);
+    return searchParams.get(name);
+}

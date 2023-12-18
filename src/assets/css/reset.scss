@@ -145,13 +145,12 @@ html {
     font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
     line-height: 1;
     color: #333333;
-    overflow: hidden;
 }
 
 html,
 body {
     width: 100vw;
-    height: 100vh;
+    background-color: #FBEBDB;
 }
 
 body {
@@ -176,15 +175,6 @@ body {
     /*padding-right: constant(safe-area-inset-right);*/
     /*padding-right: env(safe-area-inset-right);*/
 }
-
-
-/*body::-webkit-scrollbar {*/
-
-
-/*    display: none;*/
-
-
-/*}*/
 
 a {
     color: #000;
@@ -219,14 +209,9 @@ select:-webkit-autofill {
     -webkit-text-size-adjust: 100%;
 }
 
-
-/*::-webkit-scrollbar {*/
-
-
-/*    display: none;*/
-
-
-/*}*/
+::-webkit-scrollbar {
+    display: none;
+}
 
 button {
     cursor: pointer;
