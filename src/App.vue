@@ -7,22 +7,30 @@
       <label for="name" class="cont_lab">姓名</label>
       <input type="text" class="cont_input" id="name" name="name"
         required placeholder="请输入姓名" v-model="nickName"
+        :disabled="isAlreadySubmit"
       />
     </div>
     <div class="cont_item">
       <label for="tel" class="cont_lab">手机号码</label>
       <input type="tel" id="tel" class="cont_input"
-      placeholder="请输入手机号码" v-model="telNum"/>
+        placeholder="请输入手机号码" v-model="telNum"
+        :maxlength="11"
+        :disabled="isAlreadySubmit"
+      />
     </div>
     <div class="cont_item">
       <label for="address" class="cont_lab">所在地址</label>
       <input type="text" name="address" class="cont_input"
-      placeholder="请输入家庭或工作地址" v-model="addressText" />
+        placeholder="请输入家庭或工作地址" v-model="addressText"
+        :disabled="isAlreadySubmit"
+      />
     </div>
     <input type="submit"
       :class="['sub_btn', isAlreadySubmit ? 'active' : '']"
       :value="isAlreadySubmit ? '已提交申请' : '提交申请'"
-      @click="submitHandle">
+      @click="submitHandle"
+      :disabled="isAlreadySubmit"
+    >
     <div class="cont_rem">提交申请后将有专员联系您，请保持电话畅通</div>
   </div>
   <div class="item_list-box">
@@ -80,9 +88,6 @@ export default {
         tag: 'bfxlApp'
       }).then(res => {
         Toast(res.msg);
-        this.nickName = '';
-        this.telNum = '';
-        this.addressText = '';
         if(res.code == 1) this.isAlreadySubmit = true;
       });
     },
